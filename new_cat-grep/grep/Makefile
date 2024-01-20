@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-FLAG=# -Wall -Wextra -Werror
+FLAG=-Wall -Wextra -Werror
 FILE=t1.txt t2.txt
 PATTERNS = patterns.reg
 CHECK = 2>&1 valgrind --tool=memcheck --leak-check=yes --leak-check=full --show-leak-kinds=all
