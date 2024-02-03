@@ -14,25 +14,21 @@ void s21_sprintf_f_put_in_str(t_flags *flags, int is_Negative,
                               char *str) {
   int has_sign = 0;
   if (flags->left_alig == 1) {
-    s21_sprintf_f_putchar_sign(flags, is_Negative,
-                               str);
-    s21_putchar_array_to_str(temp, length_digit,
-                             str);
+    s21_sprintf_f_putchar_sign(flags, is_Negative, str);
+    s21_putchar_array_to_str(temp, length_digit, str);
   }
 
   if (length_for_str - length_digit > 0) {
-    if (flags->left_alig == 0 &&
-        flags->zero_fill == 1) {
+    if (flags->left_alig == 0 && flags->zero_fill == 1) {
       s21_sprintf_f_putchar_sign(flags, is_Negative, str);
       has_sign = 1;
     }
-    s21_fill_width(flags->width, length_digit, flags->zero_fill,
-                   str);
+    s21_fill_width(flags->width, length_digit, flags->zero_fill, str);
   }
   if (flags->left_alig == 0) {
-    if (!has_sign) s21_sprintf_f_putchar_sign(flags, is_Negative, str);
-    s21_putchar_array_to_str(temp, length_digit,
-                             str);
+    if (!has_sign)
+      s21_sprintf_f_putchar_sign(flags, is_Negative, str);
+    s21_putchar_array_to_str(temp, length_digit, str);
   }
 }
 
@@ -88,8 +84,10 @@ int s21_sprintf_f(long double b, t_flags *flags, char *str) {
   int is_Negative = 0, length_for_str = 0, sign = 0, length_int = 0,
       length_digit = 0;
 
-  if (flags->space != 0 || flags->sign != 0 || b < 0) sign = 1;
-  if (flags->precision == -1) flags->precision = 6;
+  if (flags->space != 0 || flags->sign != 0 || b < 0)
+    sign = 1;
+  if (flags->precision == -1)
+    flags->precision = 6;
 
   if (b < 0) {
     is_Negative = 1;
@@ -98,12 +96,14 @@ int s21_sprintf_f(long double b, t_flags *flags, char *str) {
 
   length_int = s21_get_length_int((int)b);
   length_digit = length_int + flags->precision + sign;
-  if (flags->precision != 0 || flags->sharp != 0) length_digit++;
+  if (flags->precision != 0 || flags->sharp != 0)
+    length_digit++;
   length_for_str = s21_get_length_for_str(flags, length_digit);
 
   char *temp_convert = s21_NULL, *temp = s21_NULL;
   temp = (char *)calloc((length_for_str + 1), sizeof(char));
-  if (!temp) exit(0);
+  if (!temp)
+    exit(0);
 
   s21_float_in_str(temp_convert, temp, flags, length_int, b);
 
@@ -166,10 +166,11 @@ void s21_fcvt(long double b, t_flags *flags, int length_int, char *temp,
     prec_copy--;
   }
 
-  if ((unsigned long long)(frac * 10) % 10 >= 5) frac++;
+  if ((unsigned long long)(frac * 10) % 10 >= 5)
+    frac++;
 
   temp_convert = s21_convert((unsigned long long)frac, 10, flags);
-  s21_strncat(temp, temp_convert, len);
+  s21_strcat(temp, temp_convert);
   s21_sprintf_f_add_zero(flags, temp, length_int);
 }
 
@@ -198,8 +199,7 @@ int s21_sprintf_g(long double b, t_flags *flags, char *str) {
   if (b_copy < 0)
     b_copy *= -1;
 
-  int e = s21_convert_long_number_to_mantissa(
-      &b_copy, flags->precision);
+  int e = s21_convert_long_number_to_mantissa(&b_copy, flags->precision);
   if (flags->precision > e && e >= -4) {
     flags->precision -= (e + 1);
     res = s21_sprintf_f(b, flags, str);
@@ -210,12 +210,12 @@ int s21_sprintf_g(long double b, t_flags *flags, char *str) {
 }
 
 void s21_write_error(char *str, int *length) {
-    *length = 0;
-    str[0] = '\0';
-    char error[17] = "INCORRECT INPUT\n";
-    int i = 0;
-    while (i != 17) {
-        write(1, &error[i], 1);
-        i++;
-    }
+  *length = 0;
+  str[0] = '\0';
+  char error[17] = "INCORRECT INPUT\n";
+  int i = 0;
+  while (i != 17) {
+    write(1, &error[i], 1);
+    i++;
+  }
 }

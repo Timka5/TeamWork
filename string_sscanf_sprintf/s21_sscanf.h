@@ -1,9 +1,9 @@
-#include <string.h>
+#include "s21_string.h"
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "s21_string.h"
+#include <string.h>
 #ifndef S21_SSCANF_H_
 #define S21_SSCANF_H_
 

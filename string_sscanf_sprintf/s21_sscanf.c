@@ -423,12 +423,11 @@ void write_hex_oct(char **str, int *fail_flag, int *res, format *param,
 
   if (strspn(*str, "0123456789abcdefABCDEF") > 0 ||
       strspn(*str, "xX0123456789abcdefABCDEF") >= 2) {
-    unsigned long long int result = strntollu(
-        *str, &ptr, base, param->width ? (unsigned int)param->width_num : (unsigned int)s21_strlen(*str));
+    unsigned long long int result =
+        strntollu(*str, &ptr, base,
+                  param->width ? (unsigned int)param->width_num
+                               : (unsigned int)s21_strlen(*str));
 
-
-
-        
     if (param->width != WIDTH_SUP) {
       *res += 1;
 

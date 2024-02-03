@@ -38,12 +38,15 @@ int calculate_length_no_width(t_flags flags, int is_negative, int e) {
   int length = 5;
   length += (e / 10) >= 10;
   int precision = flags.precision == -1 ? 6 : flags.precision;
-  if ((flags.type == 'g' || flags.type == 'G') && precision != 0) precision--;
+  if ((flags.type == 'g' || flags.type == 'G') && precision != 0)
+    precision--;
   if (is_negative || (!is_negative && flags.sign) ||
       (!is_negative && flags.space && !flags.sign))
     length++;
-  if (precision != 0) length = length + precision + 1;
-  if (precision == 0 && flags.sharp == 1) length++;
+  if (precision != 0)
+    length = length + precision + 1;
+  if (precision == 0 && flags.sharp == 1)
+    length++;
   return length;
 }
 
@@ -55,10 +58,12 @@ int create_right_part_no_mantissa(char *right_part, long double right_digits,
   right_part[0] = '\0';
   right_part[1] = '\0';
   while (1) {
-    if (counter >= precision) break;
+    if (counter >= precision)
+      break;
     counter++;
     right_digits_copy = right_digits_copy * 10;
-    if ((unsigned long int)right_digits_copy != 0) break;
+    if ((unsigned long int)right_digits_copy != 0)
+      break;
     s21_putchar_to_str('0', right_part);
   }
   char *right_part_no_zeros;
@@ -132,7 +137,8 @@ void create_final_str(char *final_str, char *left_part, char *right_part,
                       char *right_mantissa_part, t_flags flags, int is_negative,
                       int length) {
   int precision = flags.precision == -1 ? 6 : flags.precision;
-  if ((flags.type == 'g' || flags.type == 'G') && precision != 0) precision--;
+  if ((flags.type == 'g' || flags.type == 'G') && precision != 0)
+    precision--;
 
   if (!flags.left_alig) {
     if ((is_negative || (!is_negative && flags.sign)) && flags.zero_fill) {
@@ -159,7 +165,8 @@ void create_final_str(char *final_str, char *left_part, char *right_part,
     }
   }
   s21_str_fill_with_chars(final_str, left_part);
-  if (flags.sharp || precision) s21_putchar_to_str('.', final_str);
+  if (flags.sharp || precision)
+    s21_putchar_to_str('.', final_str);
   s21_str_fill_with_chars(final_str, right_part);
   s21_str_fill_with_chars(final_str, right_mantissa_part);
   if (flags.left_alig) {
@@ -171,9 +178,11 @@ int s21_sprintf_e(long double number, int letter_flag, t_flags *flags,
                   char *str, int delete_zeros) {
   char *final_str = (char *)calloc(100, sizeof(char));
   int precision = flags->precision == -1 ? 6 : flags->precision;
-  if ((flags->type == 'g' || flags->type == 'G') && precision != 0) precision--;
+  if ((flags->type == 'g' || flags->type == 'G') && precision != 0)
+    precision--;
   int is_negative = number < 0 || (number == 0 && (1 / number) < 0);
-  if (is_negative) number *= -1;
+  if (is_negative)
+    number *= -1;
   char letter = letter_flag ? 'e' : 'E';
   int result = 0;
   int e = s21_convert_long_number_to_mantissa(&number, precision);

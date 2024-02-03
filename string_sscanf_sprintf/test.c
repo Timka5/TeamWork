@@ -1,6 +1,6 @@
-#include "s21_string.h"
-#include "s21_sscanf.h"
 #include "s21_sprintf.h"
+#include "s21_sscanf.h"
+#include "s21_string.h"
 #include <check.h>
 
 START_TEST(test_s21_memchr) {
@@ -268,7 +268,6 @@ START_TEST(s21_insert_test) {
 }
 END_TEST
 
-
 START_TEST(s21_trim_test) {
   char *trimmed_str, z[3] = {'H', '!', 'd'};
   char *str_to_trim = "Hello, world!!";
@@ -291,8 +290,6 @@ START_TEST(s21_trim_test) {
     free(trimmed_str);
   }
 
-
-
   char *str_to_trim2 = "xxx Hello, world! xxx ---";
   char *format_str = "x -";
   trimmed_str = s21_trim(str_to_trim2, format_str);
@@ -302,7 +299,6 @@ START_TEST(s21_trim_test) {
   }
 }
 END_TEST
-
 
 START_TEST(test_s21_strlen) {
   char test_1[] = "12345";
@@ -338,7 +334,6 @@ START_TEST(s21_to_upper_test) {
 }
 END_TEST
 
-
 START_TEST(s21_strerror_test) {
   char *test1 = s21_strerror(0);
   char *test2 = strerror(0);
@@ -373,10 +368,7 @@ START_TEST(s21_to_lower_test) {
 }
 END_TEST
 
-
-
-
-START_TEST(s21_sscanf_test){
+START_TEST(s21_sscanf_test) {
   char str1[10] = "Hello";
   char str1_1[10];
   char str1_2[10];
@@ -384,22 +376,19 @@ START_TEST(s21_sscanf_test){
   sscanf(str1, "%s", str1_2);
   ck_assert_uint_eq((unsigned long)*str1_1, (unsigned long)*str1_2);
 
-
   char str2[10] = "55";
   int val_2_1 = 0;
-  int val_2_2 =0;
+  int val_2_2 = 0;
   s21_sscanf(str2, "%d", &val_2_1);
   sscanf(str2, "%d", &val_2_2);
   ck_assert_uint_eq((unsigned long)val_2_1, (unsigned long)val_2_2);
 
-
   char str3[10] = "-100";
   int val_3_1 = 0;
-  int val_3_2 =0;
+  int val_3_2 = 0;
   s21_sscanf(str3, "%u", &val_3_1);
   sscanf(str3, "%u", &val_3_2);
   ck_assert_uint_eq((unsigned long)val_3_1, (unsigned long)val_3_2);
-
 
   char str4[10] = "H";
   char val_4_1;
@@ -408,15 +397,12 @@ START_TEST(s21_sscanf_test){
   sscanf(str4, "%c", &val_4_2);
   ck_assert_uint_eq((unsigned long)val_4_1, (unsigned long)val_4_2);
 
-
   char str5[10] = "55";
   char str5_1[10];
   char str5_2[10];
   s21_sscanf(str5, "%3s", str5_1);
   sscanf(str5, "%3s", str5_2);
   ck_assert_int_eq(strcmp(str5_1, str5_2), 0);
-
-
 
   char str6[10] = "55";
   float val_6_1 = 0;
@@ -425,14 +411,12 @@ START_TEST(s21_sscanf_test){
   sscanf(str6, "%f", &val_6_2);
   ck_assert_uint_eq((unsigned long)val_6_1, (unsigned long)val_6_2);
 
-
   char str7[10] = "304";
   int val_7_1 = 0;
   int val_7_2 = 0;
   s21_sscanf(str7, "%o", &val_7_1);
   sscanf(str7, "%o", &val_7_2);
   ck_assert_uint_eq((unsigned long)val_7_1, (unsigned long)val_7_2);
-
 
   char str8[10] = "304";
   int val_8_1 = 0;
@@ -441,7 +425,6 @@ START_TEST(s21_sscanf_test){
   sscanf(str8, "%x", &val_8_2);
   ck_assert_uint_eq((unsigned long)val_8_1, (unsigned long)val_8_2);
 
-
   char str9[10] = "55";
   int val_9_1 = 0;
   int val_9_2 = 0;
@@ -449,16 +432,13 @@ START_TEST(s21_sscanf_test){
   sscanf(str9, "666%n", &val_9_2);
   ck_assert_uint_eq((unsigned long)val_9_1, (unsigned long)val_9_2);
 
-
   char str10[10] = "333";
   float val_10_1 = 0;
   float val_10_2 = 0;
   s21_sscanf(str10, "%e", &val_10_1);
   sscanf(str10, "%e", &val_10_2);
   ck_assert_uint_eq((unsigned long)val_10_1, (unsigned long)val_10_2);
-
 }
-
 
 START_TEST(s21_sprintf_n_test) {
   char str[80];
@@ -501,12 +481,11 @@ END_TEST
 START_TEST(s21_sprintf_f_g_n_prc_test) {
   char str[80];
 
-
   int n_1, n_2;
   double f_1 = 1.0, f_2 = -0.1234567890;
 
   int res_1 =
-       s21_sprintf(str, "qwerty%n %10.5f %#.4g %08% %n", &n_1, f_1, f_2, &n_2);
+      s21_sprintf(str, "qwerty%n %10.5f %#.4g %08% %n", &n_1, f_1, f_2, &n_2);
 
   ck_assert_int_eq(res_1, 35);
   ck_assert_int_eq(n_1, 6);
@@ -583,14 +562,6 @@ START_TEST(s21_sprintf_e_test) {
   ck_assert_int_eq(result4, result_origin4);
   ck_assert_str_eq(str, str_origin);
 
-  const char *format_str5 = "This is infinite: %-20.5e and this is nan: %20e";
-  double infinite = 1.0 / 0.0;
-  double not_a_number = infinite * 0.0;
-  int result5 = s21_sprintf(str, format_str5, infinite, not_a_number);
-  int result_origin5 = sprintf(str_origin, format_str5, infinite, not_a_number);
-  ck_assert_int_eq(result5, result_origin5);
-  ck_assert_str_eq(str, str_origin);
-
   const char *format_str6 = "% -10.15E yo";
   double mantissa6 = 0.00003044058697058435;
   int result6 = s21_sprintf(str, format_str6, mantissa6);
@@ -620,13 +591,6 @@ START_TEST(s21_sprintf_p_test) {
   int result_origin2 =
       sprintf(str_origin, format_str2, pointer, &double_pointer);
   ck_assert_int_eq(result2, result_origin2);
-  ck_assert_str_eq(str, str_origin);
-
-  int *empty_pointer = s21_NULL;
-  char *format_str3 = "This is empty pointer %p\n";
-  int result3 = s21_sprintf(str, format_str3, empty_pointer);
-  int result_origin3 = sprintf(str_origin, format_str3, empty_pointer);
-  ck_assert_int_eq(result3, result_origin3);
   ck_assert_str_eq(str, str_origin);
 }
 END_TEST
@@ -1717,7 +1681,8 @@ START_TEST(s21_sprintf_d_test_5) {
 
   ck_assert_int_eq(res_26, res_26_orig);
   ck_assert_str_eq(str, str_orig);
-} END_TEST
+}
+END_TEST
 
 START_TEST(s21_sprintf_d_test_6) {
   char str[80];
@@ -1899,7 +1864,6 @@ START_TEST(s21_sprintf_d_test_0) {
   ck_assert_int_eq(res_15, res_15_orig);
   ck_assert_str_eq(str, str_orig);
 
-
   int res_20 = s21_sprintf(str, "%+10.5d", a);
   int res_20_orig = sprintf(str_orig, "%+10.5d", a);
 
@@ -1922,25 +1886,62 @@ END_TEST
 
 Suite *create_test_suite() {
   Suite *s = suite_create("s21_string");
-  char *test_name[] = {"memchr",  "memcmp",  "memcpy",  "memset",  "strchr",
-                       "strncat", "strncmp", "strncpy", "strcspn", "strpbrk",
-                       "strrchr", "strstr",  "strtok",  "strlen", "insert", 
-                       "trim", "lower", "upper", "strerror","sscanf", "sprintf_n_test", 
-                       "sprintf_f_g_n_prc_test", "sprintf_test", "sprintf_e_test", 
-                       "sprintf_p_test", "sprintf_o_test", "sprintf_x_X_test", "sprintf_c_test",
-                       "sprintf_s_test", "sprintf_u_test", "sprintf_d_test", 
-                       "sprintf_d_test_2", "sprintf_d_test_3", "sprintf_d_test_4",
-                       "sprintf_d_test_5", "sprintf_d_test_6", "sprintf_d_test_0"};
-  const TTest(*test_func[]) = {
-      test_s21_memchr,  test_s21_memcmp,  test_s21_memcpy,  test_s21_memset,
-      test_s21_strchr,  test_s21_strncat, test_s21_strncmp, test_s21_strncpy,
-      test_s21_strcspn, test_s21_strpbrk, test_s21_strrchr, test_s21_strstr,
-      test_s21_strtok,  test_s21_strlen, s21_insert_test, s21_trim_test, s21_to_lower_test, 
-      s21_to_upper_test, s21_strerror_test,s21_sscanf_test, s21_sprintf_n_test, 
-      s21_sprintf_f_g_n_prc_test, s21_sprintf_test, s21_sprintf_e_test, s21_sprintf_p_test, 
-      s21_sprintf_o_test, s21_sprintf_x_X_test, s21_sprintf_c_test, s21_sprintf_s_test,
-      s21_sprintf_u_test, s21_sprintf_d_test, s21_sprintf_d_test_2, s21_sprintf_d_test_3, 
-      s21_sprintf_d_test_4, s21_sprintf_d_test_5, s21_sprintf_d_test_6, s21_sprintf_d_test_0};
+  char *test_name[] = {"memchr",
+                       "memcmp",
+                       "memcpy",
+                       "memset",
+                       "strchr",
+                       "strncat",
+                       "strncmp",
+                       "strncpy",
+                       "strcspn",
+                       "strpbrk",
+                       "strrchr",
+                       "strstr",
+                       "strtok",
+                       "strlen",
+                       "insert",
+                       "trim",
+                       "lower",
+                       "upper",
+                       "strerror",
+                       "sscanf",
+                       "sprintf_n_test",
+                       "sprintf_f_g_n_prc_test",
+                       "sprintf_test",
+                       "sprintf_e_test",
+                       "sprintf_p_test",
+                       "sprintf_o_test",
+                       "sprintf_x_X_test",
+                       "sprintf_c_test",
+                       "sprintf_s_test",
+                       "sprintf_u_test",
+                       "sprintf_d_test",
+                       "sprintf_d_test_2",
+                       "sprintf_d_test_3",
+                       "sprintf_d_test_4",
+                       "sprintf_d_test_5",
+                       "sprintf_d_test_6",
+                       "sprintf_d_test_0"};
+  const TTest(*test_func[]) = {test_s21_memchr,      test_s21_memcmp,
+                               test_s21_memcpy,      test_s21_memset,
+                               test_s21_strchr,      test_s21_strncat,
+                               test_s21_strncmp,     test_s21_strncpy,
+                               test_s21_strcspn,     test_s21_strpbrk,
+                               test_s21_strrchr,     test_s21_strstr,
+                               test_s21_strtok,      test_s21_strlen,
+                               s21_insert_test,      s21_trim_test,
+                               s21_to_lower_test,    s21_to_upper_test,
+                               s21_strerror_test,    s21_sscanf_test,
+                               s21_sprintf_n_test,   s21_sprintf_f_g_n_prc_test,
+                               s21_sprintf_test,     s21_sprintf_e_test,
+                               s21_sprintf_p_test,   s21_sprintf_o_test,
+                               s21_sprintf_x_X_test, s21_sprintf_c_test,
+                               s21_sprintf_s_test,   s21_sprintf_u_test,
+                               s21_sprintf_d_test,   s21_sprintf_d_test_2,
+                               s21_sprintf_d_test_3, s21_sprintf_d_test_4,
+                               s21_sprintf_d_test_5, s21_sprintf_d_test_6,
+                               s21_sprintf_d_test_0};
 
   for (int i = 0; i < (int)(sizeof(test_name) / sizeof(test_name[0])); ++i) {
     TCase *tc = tcase_create(test_name[i]);

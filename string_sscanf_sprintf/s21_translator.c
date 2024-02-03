@@ -134,7 +134,8 @@ int s21_sprintf_nan_inf(t_flags *flags, char *str, int nan, int is_negative) {
 
   char *temp = s21_NULL;
   temp = (char *)calloc(3, sizeof(char));
-  if (temp == s21_NULL) exit(0);
+  if (temp == s21_NULL)
+    exit(0);
 
   if (flags->caps_lock && nan) {
     s21_str_fill_with_chars(temp, "NAN");
@@ -147,14 +148,16 @@ int s21_sprintf_nan_inf(t_flags *flags, char *str, int nan, int is_negative) {
   }
 
   if (flags->left_alig == 1) {
-    if (length_str == 4) s21_putchar_to_str('-', str);
+    if (length_str == 4)
+      s21_putchar_to_str('-', str);
     s21_str_fill_with_chars(str, temp);
   }
   if (flags->width > length_str)
     length_str += s21_fill_width(flags->width, length_str, 0, str);
 
   if (!flags->left_alig) {
-    if (length_str == 4) s21_putchar_to_str('-', str);
+    if (length_str == 4)
+      s21_putchar_to_str('-', str);
     s21_str_fill_with_chars(str, temp);
   }
   free(temp);
@@ -353,13 +356,15 @@ int s21_sprintf_o(unsigned long c, t_flags *flags, char *str) {
 
 int s21_sprintf_prc(t_flags *flags, char *str) {
   int res = 1;
-  if (flags->width > 1) res = flags->width;
+  if (flags->width > 1)
+    res = flags->width;
   if (flags->left_alig == 1) {
     s21_putchar_to_str('%', str);
   }
   s21_fill_width(flags->width, 1, flags->zero_fill, str);
 
-  if (flags->left_alig == 0) s21_putchar_to_str('%', str);
+  if (flags->left_alig == 0)
+    s21_putchar_to_str('%', str);
 
   return res;
 }
@@ -409,7 +414,8 @@ char *s21_gen(char *rtn, int nbr, int len, int isneg) {
     rtn = malloc(sizeof(char) * (len + 1));
   else
     return "0";
-  if (!rtn) return (0);
+  if (!rtn)
+    return (0);
   isneg = 0;
   if (nbr < 0) {
     isneg++;
@@ -437,7 +443,8 @@ char *s21_u_itoa(unsigned int n) {
   len = s21_get_length(nbr);
   rtn = 0;
   isneg = 0;
-  if (!(rtn = s21_gen(rtn, nbr, len, isneg))) return (0);
+  if (!(rtn = s21_gen(rtn, nbr, len, isneg)))
+    return (0);
   return (rtn);
 }
 
@@ -452,8 +459,7 @@ int s21_sprintf_u(unsigned int u, t_flags *flags, char *str) {
              flags->precision != -1) {
     s21_while_loop1(flags->precision, u, 0, &i, '0', str);
     char *temp = s21_u_itoa(u);
-    
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
     i = s21_strlen(str);
     s21_while_loop3(flags->width, 0, 0, &i, ' ', str);
@@ -462,7 +468,7 @@ int s21_sprintf_u(unsigned int u, t_flags *flags, char *str) {
              flags->precision < s21_get_length(u)) {
     s21_while_loop2(flags->width, u, &i, ' ', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->left_alig == 0 && flags->width > flags->precision &&
              flags->precision != -1 && flags->zero_fill == 0 &&
@@ -470,63 +476,63 @@ int s21_sprintf_u(unsigned int u, t_flags *flags, char *str) {
     s21_while_loop3(flags->width, flags->precision, 0, &i, ' ', str);
     s21_while_loop1(flags->width, u, 0, &i, '0', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->left_alig == 0 && flags->width > flags->precision &&
              flags->precision != -1 && flags->zero_fill == 1) {
     if (flags->precision <= s21_get_length(u)) {
       s21_while_loop2(flags->width, u, &i, ' ', str);
       char *temp = s21_u_itoa(u);
-      s21_strncat(str, temp, s21_strlen(str));
+      s21_strcat(str, temp);
       free(temp);
     } else {
       s21_while_loop3(flags->width, flags->precision, 0, &i, ' ', str);
       s21_while_loop1(flags->width, u, 0, &i, '0', str);
       char *temp = s21_u_itoa(u);
-      s21_strncat(str, temp, s21_strlen(str));
+      s21_strcat(str, temp);
       free(temp);
     }
   } else if (flags->precision == -1 && flags->width > s21_get_length(u) &&
              flags->zero_fill == 0 && flags->left_alig == 0) {
     s21_while_loop2(flags->width, u, &i, ' ', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->precision == -1 && flags->width > s21_get_length(u) &&
              flags->zero_fill == 0 && flags->left_alig == 1) {
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
     s21_while_loop2(flags->width, u, &i, ' ', str);
   } else if (flags->precision == -1 && flags->width > s21_get_length(u) &&
              flags->zero_fill == 1) {
     s21_while_loop2(flags->width, u, &i, '0', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->precision == -1 && flags->width <= s21_get_length(u)) {
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->precision > s21_get_length(u)) {
     s21_while_loop2(flags->precision, u, &i, '0', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->precision < s21_get_length(u)) {
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else if (flags->width > flags->precision) {
     flags->width = s21_get_length(u);
     s21_while_loop2(flags->width, u, &i, ' ', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   } else {
     s21_while_loop2(flags->precision, u, &i, '0', str);
     char *temp = s21_u_itoa(u);
-    s21_strncat(str, temp, s21_strlen(str));
+    s21_strcat(str, temp);
     free(temp);
   }
   result = s21_strlen(str);
@@ -538,7 +544,8 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
   if (d < 0 || flags->sign == 1 || d == 0) {
     if (d == 0) {
       if (flags->left_alig == 1) {
-        if (flags->sign == 1) s21_putchar_to_str('+', str);
+        if (flags->sign == 1)
+          s21_putchar_to_str('+', str);
         flags->precision--;
         s21_sprintf_u(d, flags, str);
       } else if (flags->left_alig == 0 && flags->zero_fill == 0 &&
@@ -587,12 +594,12 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
           s21_while_loop2(flags->width - 1, d, &i, ' ', str);
           s21_putchar_to_str('+', str);
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
         } else {
           s21_while_loop2(flags->width, d, &i, ' ', str);
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
         }
       } else {
@@ -600,14 +607,14 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
           s21_while_loop1(flags->width, d, -1, &i, ' ', str);
           s21_putchar_to_str('+', str);
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
         } else {
           s21_while_loop1(flags->width, d, -1, &i, ' ', str);
           s21_putchar_to_str('-', str);
           s21_putchar_to_str('0', str);
           char *temp = s21_u_itoa(-d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
         }
       }
@@ -619,14 +626,14 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         s21_putchar_to_str('+', str);
         s21_while_loop2(flags->width - 1, d, &i, '0', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         s21_while_loop3(flags->width, flags->precision, -1, &i, ' ', str);
         s21_putchar_to_str('-', str);
         s21_while_loop2(flags->width, d, &i, '0', str);
         char *temp = s21_u_itoa(-d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->zero_fill == 1 && flags->width > flags->precision &&
@@ -636,14 +643,14 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         s21_putchar_to_str('+', str);
         s21_while_loop2(flags->width - 1, d, &i, '0', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         s21_while_loop3(flags->width, flags->precision, -1, &i, ' ', str);
         s21_putchar_to_str('-', str);
         s21_while_loop2(flags->width, d, &i, '0', str);
         char *temp = s21_u_itoa(-d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->zero_fill == 1 && flags->width > flags->precision &&
@@ -652,13 +659,13 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         s21_putchar_to_str('+', str);
         s21_while_loop3(flags->precision, d, 1, &i, '0', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         s21_putchar_to_str('-', str);
         s21_while_loop3(flags->precision, -d, 1, &i, '0', str);
         char *temp = s21_u_itoa(-d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->width <= flags->precision) {
@@ -673,11 +680,11 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
       if (flags->sign == 1 && d > 0) {
         s21_putchar_to_str('+', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->left_alig == 1 && flags->width > flags->precision) {
@@ -685,13 +692,13 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         if (flags->sign == 1 && d > 0) {
           s21_putchar_to_str('+', str);
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
           i += s21_get_length(d);
           s21_while_loop1(flags->width - 1, 0, 0, &i, ' ', str);
         } else {
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
           i += s21_get_length(d);
           s21_while_loop1(flags->width, 0, 0, &i, ' ', str);
@@ -702,7 +709,7 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
           i++;
           s21_while_loop1(flags->precision, d, 1, &i, '0', str);
           char *temp = s21_u_itoa(d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
           i += s21_get_length(d);
           s21_while_loop2(flags->width, 0, &i, ' ', str);
@@ -711,7 +718,7 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
           i++;
           s21_while_loop1(flags->precision, -d, 1, &i, '0', str);
           char *temp = s21_u_itoa(-d);
-          s21_strncat(str, temp, s21_strlen(str));
+          s21_strcat(str, temp);
           free(temp);
           i += s21_get_length(-d);
           s21_while_loop2(flags->width, 0, &i, ' ', str);
@@ -723,14 +730,14 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         s21_putchar_to_str('-', str);
         s21_while_loop2(flags->width, d, &i, '0', str);
         char *temp = s21_u_itoa(-d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         s21_putchar_to_str('+', str);
         i++;
         s21_while_loop2(flags->width, d, &i, '0', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->precision == -1 && flags->width > s21_get_length(d) &&
@@ -739,12 +746,12 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
         s21_while_loop2(flags->width - 1, d, &i, ' ', str);
         s21_putchar_to_str('+', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       } else {
         s21_while_loop2(flags->width, d, &i, ' ', str);
         char *temp = s21_u_itoa(d);
-        s21_strncat(str, temp, s21_strlen(str));
+        s21_strcat(str, temp);
         free(temp);
       }
     } else if (flags->precision == -1 && flags->width > s21_get_length(d) &&
@@ -753,12 +760,13 @@ int s21_sprintf_d_i(int d, t_flags *flags, char *str) {
       i++;
       s21_while_loop2(flags->width, -d, &i, '0', str);
       char *temp = s21_u_itoa(-d);
-      s21_strncat(str, temp, s21_strlen(str));
+      s21_strcat(str, temp);
       free(temp);
     }
   } else {
     if (d == 0) {
-      if (flags->width > flags->precision) flags->precision--;
+      if (flags->width > flags->precision)
+        flags->precision--;
     }
     if (flags->space == 1 && flags->width > s21_get_length(d)) {
       s21_putchar_to_str(' ', str);

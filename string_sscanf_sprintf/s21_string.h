@@ -25,6 +25,6 @@ char *s21_trim(const char *src, const char *trim_chars);
 void *s21_to_upper(char *str);
 void *s21_to_lower(char *str);
 char *s21_insert(char *src, char *str, size_t start_index);
-
+char *s21_strcat(char *dest, const char *src);
 
 #endif
